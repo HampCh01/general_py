@@ -52,7 +52,7 @@ def add_test_data(pieces:list) -> str:
         return ''
     mname = pieces.pop(-1)
     adedate, adbdate, adstatus = ad_random()
-    pieces.append(f' {adstatus}{adbdate}09{datetime.now().strftime("%Y%m%d")}{adedate}{"0"*16}ZZZZ{mname}{get_cert()}')
+    pieces.append(f' {adstatus}{adbdate}09{datetime.now().strftime("%Y%m%d")}{adedate}{"0"*16}ZZZZ{mname}{get_cert()}') # website response string
     return ''.join(pieces)
 
 def get_cert() -> str:
