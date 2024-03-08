@@ -15,22 +15,23 @@ def main() -> None:
         path = Path(yaml.safe_load(open('settings.yml'))['path'])
 
     if not path.exists():
-            raise FileNotFoundError(f"{path} does not exist")
+        raise FileNotFoundError(f"{path} does not exist")
     if not path.is_file():
         for file in path.iterdir():
             if file.name.endswith('.txt'):
                 openfile(file)
 
 
-
 def openfile(path:str) -> None:
     with open(path, 'r') as in_file:
-        if (path.parents[1] / '3FromSCRA').exists():
+        if (path.parents[0] / "3FromSCRA").exists():
             with open(path.parents[1] / '3FromSCRA' / f'SCRA_5_18_{path.name}', 'w') as out_file:
                 for line in in_file:
                     out_file.write(add_test_data(parse_input(line.replace('\n', ''))) + '\n')
         else:
-            with open(path.parents[1] / f'SCRA_5_18_{path.name}', 'w') as out_file:
+            target_dir = path.parents[0] / "outputs"
+            target_dir.mkdir(exist_ok=True)
+            with open(target_dir / f"SCRA_5_18_{path.name}", "w") as out_file:
                 for line in in_file:
                     out_file.write(add_test_data(parse_input(line.replace('\n', ''))) + '\n')
 
@@ -69,8 +70,13 @@ def ad_random():
     elif result == 1:
         return (now + td).strftime(form), ((now + td) + day - timedelta(days=365*random.randrange(1,5))).strftime(form), 'YNN'
     elif result == 2:
-        return (now - td).strftime(form), ((now - td) + day - timedelta(days=365*random.randrange(1,5))).strftime(form), 'NYN'
-    
+        return (
+            (now - td).strftime(form),
+            ((now - td) + day - timedelta(days=365 * random.randrange(1, 5))).strftime(
+                form
+            ),
+            "NYN",
+        )
 
 
 if __name__ == "__main__":

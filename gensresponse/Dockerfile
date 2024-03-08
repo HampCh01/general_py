@@ -9,4 +9,4 @@ RUN python -m pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "-m", "scrafilecreate"]
+CMD ["python", "-m", "gensresponse"]
